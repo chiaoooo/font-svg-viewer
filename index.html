@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+
+<html>
+    <head>
+        <meta charset="utf-8">
+		<meta name="description" content="A Web-Based TrueType Automatic Morphing System">
+		<meta name="keywords" content="TrueType, Morphing, Automatic">
+		<meta name="author" content="NTUT Steve Chung">
+		<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+		<meta http-equiv="content-language" content="en-us">
+		<meta property="og:locale" content="en_US">
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="Font SVG Viewer">
+		<meta property="og:description" content="A Web-Based TrueType Automatic Morphing System">
+        <title> Font SVG Viewer </title>
+    <link href="./main.bundle.css" rel="stylesheet"></head>
+    <body>
+        <div class="bg"></div>
+
+        <div class="full-screen-loading hide">
+            <div class="rotate"> <div class="bg"></div> </div>
+            <div id="loading-info"></div>
+            <div class="btn btn-sm hide" id="cancel-btn"> Cancel </div>
+        </div>
+
+        <div class="prompt-out-area" style="display: none">
+
+            <div id="search-char" class="search-char hide">
+                <div class="title"> Search Char: </div>
+                <input>
+                <div style="text-align: right;margin-top:1rem;">
+                    <div class="btn btn-sm"> Search </div>
+                </div>
+            </div>
+
+            <div id="export-all-svg-dialog" class="export-all-svg hide">
+                Lorem Ipsum
+            </div>
+
+            <div id="wait-ttf-file" class="wait-ttf-file hide">
+                <div class="title"> Please provide a valid ttf file </div>
+                <div class="inner">
+                    <div class="file-area">
+                        <div id="drop-file"> Put your TTF here </div>
+                    </div>
+                    <div class="file-area">
+                        <div id="file-url">
+                            <div>
+                                <label for="ttf-url"> Enter a valid TTF URL </label> 
+                                <input id="ttf-url" value="allseto.ttf">
+                                <div id="submit-ttf" class="btn btn-sm"> Submit </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div id="import-svg-prompt" class="search-char hide">
+                <div class="title"> Please provide a SVG folder </div>
+                <div class="btn-with-checkbox">
+                    <div class="btn" id="select-svg-folder"> Select </div>
+                    <div class="label-container">
+                        <label for="enable-resize">AutoResize: </label>
+                        <input type="checkbox" id="enable-resize">
+                    </div>
+                </div>
+                
+            </div>
+
+            <div id="show-glyph-info" class="show-glyph-info hide">
+                <div class="title"> Glyph Infomation </div>
+                <div class="inner-main">
+                    <div class="inner svg-area"></div>
+                    <div class="inner info-area">
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div id="function-editor-prompt" class="function-editor-prompt hide">
+                <div class="title"> Morph Function Editor </div>
+                <div class="inner-main">
+                    <div class="function-body">
+                        <textarea id="function-body-text"></textarea>
+                    </div>
+                    <div class="control-panel">
+                        <div class="item">
+                            <div> Start Unicode: </div>
+                            <div> <input id="start-unicode" value="U+0000"> </div>
+                        </div>
+                        <div class="item">
+                            <div> End Unicode: </div>
+                            <div> <input id="end-unicode" value="U+0050"> </div>
+                        </div>
+
+                        <div class="item flex-item">
+                            <img id="default-fn" src="./static-imgs/default.svg" title="Restore Default Function">
+                            
+                            <div id="apply-fn" class="svg-btn-container" title="Apply Morph Function">
+                                <svg width="100%" height="100%" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <g id="play_svg"> <path fill="#444" d="M4 0v6h1.7l0.2 0.7 0.2 0.6c0 0 0.1 0 0.1 0l1.2-0.6 1.8 1.8-0.6 1.2c0 0 0 0.1 0 0.1l0.6 0.2 0.7 0.2v0.2l6.1-3.4-12-7z"></path> <path fill="#444" d="M4.5 10.5c-0.2 0-0.4 0.1-0.5 0.2-0.3 0.2-0.5 0.5-0.5 0.8s0.2 0.7 0.5 0.8c0.1 0.1 0.3 0.2 0.5 0.2 0.6 0 1-0.4 1-1s-0.4-1-1-1z"></path> <path fill="#444" d="M9 12v-1l-1.1-0.4c-0.1-0.3-0.2-0.6-0.4-0.9l0.5-1-0.7-0.7-1 0.5c-0.3-0.2-0.6-0.3-0.9-0.4l-0.4-1.1h-1l-0.4 1.1c-0.3 0.1-0.6 0.2-0.9 0.4l-1-0.5-0.7 0.7 0.5 1.1c-0.2 0.3-0.3 0.6-0.4 0.9l-1.1 0.3v1l1.1 0.4c0.1 0.3 0.2 0.6 0.4 0.9l-0.5 1 0.7 0.7 1.1-0.5c0.3 0.2 0.6 0.3 0.9 0.4l0.3 1.1h1l0.4-1.1c0.3-0.1 0.6-0.2 0.9-0.4l1 0.5 0.7-0.7-0.5-1.1c0.2-0.3 0.3-0.6 0.4-0.9l1.1-0.3zM4.5 13.5c-1.1 0-2-0.9-2-2s0.9-2 2-2 2 0.9 2 2c0 1.1-0.9 2-2 2z"> <animateTransform begin="play_svg.mouseover" end="play_svg.mouseout" attributeType="xml" attributeName="transform" type="rotate" from="360 4.5 11.51" to="0 4.5 11.51" dur="0.5s" additive="sum" repeatCount="indefinite"/> </path> </g> </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="path-editor-prompt" class="function-editor-prompt path-editor-prompt hide">
+                <div class="title"> Simple Path Editor </div>
+                <div class="inner-main">
+                    <div class="editor-left"></div>
+                    <div class="editor-right">
+                        <div class="path-editor-btn" title="Save SVG"><img id="save-path-editor" src="./static-imgs/save.svg"></div>
+                        <div class="path-editor-btn" title="Cancel"><img id="cancel-path-editor" src="./static-imgs/cancel.svg"></div>
+                    </div>     
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="left-side">
+                
+
+            </div>
+            <div class="middle-side">
+                <div class="display-svg" id="svg-container"></div>
+            </div>
+            <div class="right-side">
+
+                <div class="top">
+                    <div class="item">
+                        <img id="search-btn" src="./static-imgs/Search.svg" title="Search Characher">
+                    </div>
+                    <div class="item">
+                        <img id="download-btn" src="./static-imgs/download.svg" title="Download Character SVG">
+                    </div>
+                    <div class="item disable">
+                        <img id="download-woff2-btn" src="./static-imgs/web-font.svg" title="Download Converted Woff2 font">
+                    </div>
+                    <div class="item">
+                        <img id="svg-editor" src="./static-imgs/svg.svg" title="Edit SVG">
+                    </div>
+                    <div class="item">
+                        <canvas class="hide"></canvas>
+                        <img id="user-function" src="./static-imgs/function.svg" title="Execute User-Custom Function">
+                    </div>
+                    <div class="item">
+                        <canvas class="hide"></canvas>
+                        <img id="folder-import" src="./static-imgs/folder.svg" title="Import SVGs">
+                    </div>
+                    <div class="item">
+                        <img id="svg-path-editor" src="./static-imgs/edit.svg" title="Edit SVG by path">
+                    </div>
+                    <div class="item">
+                        <img id="char-info" src="./static-imgs/info.svg" title="Check Character info">
+                    </div>
+                    <div class="item">
+                        <img id="download-info" src="./static-imgs/download_info.svg" title="Download Font Infomation">
+                    </div>
+                    <div class="item">
+                        <img id="reload-btn" src="./static-imgs/reload.svg" title="Reload Application">
+                    </div>
+                </div>
+
+                <div class="bottom">
+                    <div class="item">
+                        <canvas class="hide"></canvas>
+                        <img id="export-all-svg" src="./static-imgs/export.svg" title="Export all SVG files from ttf">
+                    </div>
+                    <div class="item">
+                        <canvas class="hide"></canvas>
+                        <img id="pack-ttf" src="./static-imgs/ttf.svg" title="Pack to TTF">
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script defer="defer" src="./vendor.bundle.js"></script><script defer="defer" src="./main.bundle.js"></script></body>
+</html>
